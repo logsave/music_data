@@ -1,0 +1,20 @@
+name: add music list
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.js'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: get music
+      run: |
+        python3 -c "import os;print(f\"var music_data={os.listdir('./songs/')}\")" > music_list.js
+        git config --global user.name "MusicSharing" 
+        git config --global user.email music@ermaozi.xyz 
+        git add ./music_list.js
+        git commit -m "update music list"
+        git push
